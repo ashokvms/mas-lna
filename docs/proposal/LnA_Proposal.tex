@@ -1,0 +1,147 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+\newcommand\question[1]{\vspace{.25in}\hrule\textbf{#1}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{(#1)}}
+\newcommand\solution{\vspace{.10in}\textbf{Solution: }}
+\pagestyle{fancyplain}
+% \lhead{\textbf{\NAME\ (\ANDREWID)}}
+% \chead{\textbf{HW\HWNUM}}
+% \rhead{02-713, \today}
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{
+\textbf {\LARGE Learning and Adaptivity - Project Proposal \\ Time Series
+Prediction using Hidden Markov Models} }
+\author {\textbf{Saugata Biswas, Ashok Meenakshi Sundaram}} % Your name
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle
+
+%Section A==============Change the values below to match your information==================
+% \newcommand\NAME{Carl Kingsford}  % your name
+% \newcommand\ANDREWID{ckingsf}     % your andrew id
+% \newcommand\HWNUM{1}              % the homework number
+
+%Section B==============Put your answers to the questions below here=======================
+
+% no need to restate the problem --- the graders know which problem is which,
+% but replacing "The First Problem" with a short phrase will help you remember
+% which problem this is when you read over your homeworks to study.
+
+\question{Introduction}
+
+The primary objective of this project is to learn to predict non linear time
+series. From the perspective of service or medical robotics which need
+to help people, the real life data like speech, activity, bio-informatics all
+require time series analysis to predict the future based on the past so that a
+control decision could be made. Also, in the other domains like meteorology,
+finance, marketing, web analysis etc. time series analysis is important. However
+there is no deterministic relation between the past and future. The variation
+of data are non linear. An effective way to handle this non-deterministic data
+could be to formulate in terms of probability. This project will focus on one
+such stochastic machine learning approach called Hidden Markov Model. The
+use case considered for this project is prediction of stock market based on its
+performance in the past.
+
+\question{Methods}
+
+Hidden Markov Models (HMM) are to be used for training time series
+prediction model. HMMs are markov process with hidden states i.e. the states are
+not directly visible but only the output dependent on this hidden state is
+visible. HMMs are chosen since they are stochastic process and more meaningful
+to handle non-deterministic data. Other methods to predict time series include
+multi layer perceptron, auto regressive model, Box-Jenkins approach.
+
+Hidden Markov Model tools available in scikit-learn
+\footnote{http://scikit-learn.org/} and weka
+\footnote{http://www.cs.waikato.ac.nz/ml/weka/} libraries will be used to complete this project. Future extensions of this project could be done in the directions of adapting HMM to new data as they come and not restricting
+to the old training set. Also, issues on balancing prediction based on long
+term series trend and short term series trend could be investigated further for
+better performance.
+
+\question{Data Set and Features}
+
+Data set for the stock market prediction will be taken from Istanbul stock
+exchange which is available at
+\url{http://archive.ics.uci.edu/ml/datasets/ISTANBUL+STOCK+EXCHANGE}. This data
+set contains indexes of Istanbul stock exchange in comparison with other
+international indexes e.g. SP, DAX, FTSE, NIKKEI etc. for a period of two years
+(2009-2011). This is a labeled data set with 538 entries. 80 percent of the data
+will be taken as training set and the rest will be used as test set.
+
+Features i.e. other international indexes are already directly available in the
+data set but pre-processing of the data will be necessary. New additional
+features can be added by taking different statistical measures from the
+available measures. Python has implementation of such statistical tools required
+to collect those features.
+
+\question{Milestones}
+
+First week
+\begin{itemize}
+  \item Pre-processing of data
+  \item Selection of features and generating new features based on those already
+  available
+  \item Separation of data into training, validation and test set
+  \item Learn theory behind HMM
+\end{itemize}
+
+Second and Third week
+\begin{itemize}
+  \item Training HMM using the training set
+  \item Validation of the model using cross validation set
+\end{itemize}
+
+Fourth week
+\begin{itemize}
+  \item Finally testing the learned model using the test set
+  \item Compare those result with those already found in research paper
+\end{itemize}
+
+\question{References}
+
+\begin{itemize}
+  \item Akbilgic, Oguz, Hamparsum Bozdogan, and M. Erdal Balaban. "A novel
+  Hybrid RBF Neural Networks model as a forecaster." Statistics and Computing (2013): 1-11.
+  \item Zhang, Yingjian. Prediction of financial time series with Hidden Markov
+  Models. Diss. Simon Fraser University, 2004.
+  \item Kavitha, G., A. Udhayakumar, and D. Nagarajan. "Stock Market Trend
+  Analysis Using Hidden Markov Models." arXiv preprint arXiv:1311.4771 (2013).
+  \item Hassan, Md Rafiul, Baikunth Nath, and Michael Kirley. "A fusion model of
+  HMM, ANN and GA for stock market forecasting." Expert Systems with Applications 33.1 (2007): 171-180.
+  \item Nobakht, Behrooz, Carl-Edward Joseph, and Babak Loni. "Stock market
+  analysis and prediction using hidden markov models." Student Conference on Engg and Systems (SCES). 2012.
+  \item Dietterich, Thomas G. "Machine learning for sequential data: A review."
+  Structural, syntactic, and statistical pattern recognition. Springer Berlin Heidelberg, 2002. 15-30.
+\end{itemize}
+
+\end{document}
+
