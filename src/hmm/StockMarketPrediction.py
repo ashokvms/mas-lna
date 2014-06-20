@@ -7,7 +7,6 @@ Created on Sun Jun 15 22:42:04 2014
 
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas
 from sklearn import linear_model
 
 
@@ -40,70 +39,63 @@ for i in range(1,537):
 for i in range(0,536):
     features.append([sp[i],dax[i],ftse[i],nikkei[i],bovespa[i],eu[i],em[i]])
 
+##################################################
+
+features = np.array(features)
+targets = np.array(ise_us).reshape(len(ise_us),1)
+
 ####################################################################################
 ########## feedback of outputs #####################################################
+def incorporate_feedback(data,targets,fb=4):
+    mod_targets = targets[fb:,:]
+    prev_outputs = np.zeros((np.size(mod_targets,0), fb))
 
-#no_of_prev_data_as_feature = 4
-#
-#features = np.array(features)
-#out = np.array(ise_us).reshape(len(ise_us),1)
-#
-#
-#
-#
-#targets = out[no_of_prev_data_as_feature:,:]
-#
-#prev_outputs = np.zeros((np.size(features,0)-no_of_prev_data_as_feature, no_of_prev_data_as_feature))
-#
-#for i in range(no_of_prev_data_as_feature, np.size(features, 0)):
-#    prev_outputs[i-no_of_prev_data_as_feature,:] = out[i-no_of_prev_data_as_feature:i,0]
-#    
-#features = np.hstack((features[no_of_prev_data_as_feature:,:], prev_outputs))
-
+    for i in range(np.size(features, 0)-fb):
+        feedback = targets[i:i+fb,]
+        for j in range(fb):
+            prev_outputs[i,j] = feedback[j,:]
+    
+    mod_features = np.hstack((data[fb:,:], prev_outputs))
+    return mod_features, mod_targets
 #####################################################################################
+
+####### incorporating feedback ############################
+features, targets = incorporate_feedback(features, targets, 10)
+###########################################################
+
+print features.shape, targets.shape
 
 
 
 test_set_ratio = 0.8
 
-features = np.array(features)
-targets = np.array(ise_us).reshape(len(ise_us),1)
-
-
-#####################################################################################
-######### Moving average ############################################################
-
-
-
-#ewma = pandas.stats.moments.ewma
-#
-#fwd = ewma( features, span=20 ) 
-#bwd = ewma( features[::-1], span=20 )
-#
-#features = (fwd+bwd)/2
-
-####################################################################################
-
-
-train_features = features[0:int(test_set_ratio*np.size(features,0)),:]
+train_features = features[:int(test_set_ratio*np.size(features,0)),:]
 test_features = features[int(test_set_ratio*np.size(features,0)):,:]
 
-train_targets = targets[0:int(test_set_ratio*np.size(features,0)),:]
+train_targets = targets[:int(test_set_ratio*np.size(features,0)),:]
 test_targets = targets[int(test_set_ratio*np.size(features,0)):,:]
 
 
-
+########### training ################
 clf = linear_model.LinearRegression()
 clf.fit(train_features, train_targets)
-pred = clf.predict(test_features)
 
-mse = np.sum((test_targets-pred)**2)
-print mse
-plt.plot(pred, label = 'predicted')
+print 'accuracy on training set', clf.score(train_features,train_targets)
+print 'accuracy on test set', clf.score(test_features,test_targets)
+
+print 'mse on training set =', np.sum((train_targets-clf.predict(train_features))**2)/np.size(train_features,0)
+print 'mse on test set =', np.sum((test_targets-clf.predict(test_features))**2)/np.size(test_features,0)
+
+plt.figure(0)
+plt.plot(clf.predict(train_features), label = 'predicted')
+plt.plot(train_targets, label = 'actual')
+plt.legend(loc = 8)
+plt.title('Train set prediction')
+
+plt.figure(1)
+plt.plot(clf.predict(test_features), label = 'predicted')
 plt.plot(test_targets, label = 'actual')
 plt.legend(loc = 8)
-
-
-
+plt.title('Test set prediction')
 
 
