@@ -96,13 +96,14 @@ plt.plot(clf.predict(train_features), label = 'predicted')
 plt.plot(train_targets, label = 'actual')
 plt.legend(loc = 8)
 plt.title('Train set prediction')
+plt.show()
 
 plt.figure(1)
 plt.plot(clf.predict(test_features), label = 'predicted')
 plt.plot(test_targets, label = 'actual')
 plt.legend(loc = 8)
 plt.title('Test set prediction')
-
+plt.show()
 ###############################################################
 #### Support Vector Regression ################################
 ###############################################################
@@ -131,13 +132,14 @@ plt.plot(clf.predict(train_features), label = 'predicted')
 plt.plot(train_targets, label = 'actual')
 plt.legend(loc = 8)
 plt.title('Train set prediction')
+plt.show()
 
 plt.figure(3)
 plt.plot(clf.predict(test_features), label = 'predicted')
 plt.plot(test_targets, label = 'actual')
 plt.legend(loc = 8)
 plt.title('Test set prediction')
-
+plt.show()
 
 ###############################################################
 #### Support Vector Regression ################################
@@ -159,10 +161,11 @@ plt.plot(clf.predict(train_features), label = 'predicted')
 plt.plot(train_targets, label = 'actual')
 plt.legend(loc = 8)
 plt.title('Train set prediction')
+plt.show()
 
 plt.figure(5)
 plt.plot(clf.predict(test_features), label = 'predicted')
 plt.plot(test_targets, label = 'actual')
 plt.legend(loc = 8)
 plt.title('Test set prediction')
-
+plt.show()
