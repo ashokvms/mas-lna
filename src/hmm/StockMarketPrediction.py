@@ -62,7 +62,9 @@ def incorporate_feedback(data,targets,fb=4):
 #####################################################################################
 
 ####### incorporating feedback ############################
-features, targets = incorporate_feedback(features, targets, 10)
+no_of_feedback = 10
+print 'no of feedback =', no_of_feedback
+features, targets = incorporate_feedback(features, targets, no_of_feedback)
 ###########################################################
 
 
@@ -95,15 +97,15 @@ plt.figure(0)
 plt.plot(clf.predict(train_features), label = 'predicted')
 plt.plot(train_targets, label = 'actual')
 plt.legend(loc = 8)
-plt.title('Train set prediction')
-plt.show()
+plt.title('Train set prediction - Linear Regression')
+plt.savefig('Train_set_prediction-LinearRegression.jpg', bbox_inches='tight')
 
 plt.figure(1)
 plt.plot(clf.predict(test_features), label = 'predicted')
 plt.plot(test_targets, label = 'actual')
 plt.legend(loc = 8)
-plt.title('Test set prediction')
-plt.show()
+plt.title('Test set prediction - Linear Regression')
+plt.savefig('Test_set_prediction-LinearRegression.jpg', bbox_inches='tight')
 ###############################################################
 #### Support Vector Regression ################################
 ###############################################################
@@ -131,15 +133,15 @@ plt.figure(2)
 plt.plot(clf.predict(train_features), label = 'predicted')
 plt.plot(train_targets, label = 'actual')
 plt.legend(loc = 8)
-plt.title('Train set prediction')
-plt.show()
+plt.title('Train set prediction - SVM Regression')
+plt.savefig('Train_set_prediction-SVMRegression.jpg', bbox_inches='tight')
 
 plt.figure(3)
 plt.plot(clf.predict(test_features), label = 'predicted')
 plt.plot(test_targets, label = 'actual')
 plt.legend(loc = 8)
-plt.title('Test set prediction')
-plt.show()
+plt.title('Test set prediction - SVM Regression')
+plt.savefig('Test_set_prediction-SVMRegression.jpg', bbox_inches='tight')
 
 ###############################################################
 #### Support Vector Regression ################################
@@ -160,12 +162,13 @@ plt.figure(4)
 plt.plot(clf.predict(train_features), label = 'predicted')
 plt.plot(train_targets, label = 'actual')
 plt.legend(loc = 8)
-plt.title('Train set prediction')
-plt.show()
+plt.title('Train set prediction - RidgeLinearRegression')
+plt.savefig('Train_set_prediction-RidgeLinearRegression.jpg', bbox_inches='tight')
 
 plt.figure(5)
 plt.plot(clf.predict(test_features), label = 'predicted')
 plt.plot(test_targets, label = 'actual')
 plt.legend(loc = 8)
-plt.title('Test set prediction')
+plt.title('Test set prediction - RidgeLinearRegression')
+plt.savefig('Test_set_prediction-RidgeLinearRegression.jpg', bbox_inches='tight')
 plt.show()
