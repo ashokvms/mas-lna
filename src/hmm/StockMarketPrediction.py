@@ -8,6 +8,8 @@ Created on Sun Jun 15 22:42:04 2014
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import linear_model
+from sklearn.svm import NuSVR
+from sklearn.linear_model import Ridge
 
 
 headers = []
@@ -63,9 +65,12 @@ def incorporate_feedback(data,targets,fb=4):
 features, targets = incorporate_feedback(features, targets, 10)
 ###########################################################
 
+
+########### normalizing ##########################################
+features = np.divide((features-np.mean(features,0)),np.std(features,0))
+targets = np.divide((targets-np.mean(targets,0)),np.std(targets,0))
+
 print features.shape, targets.shape
-
-
 
 test_set_ratio = 0.8
 
@@ -98,4 +103,66 @@ plt.plot(test_targets, label = 'actual')
 plt.legend(loc = 8)
 plt.title('Test set prediction')
 
+###############################################################
+#### Support Vector Regression ################################
+###############################################################
+print '\nSupport Vector Regression\n'
+
+targets = targets[:,0]
+test_set_ratio = 0.8
+
+train_features = features[:int(test_set_ratio*np.size(features,0)),:]
+test_features = features[int(test_set_ratio*np.size(features,0)):,:]
+
+train_targets = targets[:int(test_set_ratio*np.size(features,0))]
+test_targets = targets[int(test_set_ratio*np.size(features,0)):]
+########### training ################
+clf = NuSVR(C=1.0, nu=0.1)
+clf.fit(train_features, train_targets)
+
+print 'accuracy on training set', clf.score(train_features,train_targets)
+print 'accuracy on test set', clf.score(test_features,test_targets)
+
+print 'mse on training set =', np.sum((train_targets-clf.predict(train_features))**2)/np.size(train_features,0)
+print 'mse on test set =', np.sum((test_targets-clf.predict(test_features))**2)/np.size(test_features,0)
+
+plt.figure(2)
+plt.plot(clf.predict(train_features), label = 'predicted')
+plt.plot(train_targets, label = 'actual')
+plt.legend(loc = 8)
+plt.title('Train set prediction')
+
+plt.figure(3)
+plt.plot(clf.predict(test_features), label = 'predicted')
+plt.plot(test_targets, label = 'actual')
+plt.legend(loc = 8)
+plt.title('Test set prediction')
+
+
+###############################################################
+#### Support Vector Regression ################################
+###############################################################
+print '\nRidge for Regression\n'
+
+########### training ################
+clf = Ridge(alpha=1.0)
+clf.fit(train_features, train_targets)
+
+print 'accuracy on training set', clf.score(train_features,train_targets)
+print 'accuracy on test set', clf.score(test_features,test_targets)
+
+print 'mse on training set =', np.sum((train_targets-clf.predict(train_features))**2)/np.size(train_features,0)
+print 'mse on test set =', np.sum((test_targets-clf.predict(test_features))**2)/np.size(test_features,0)
+
+plt.figure(4)
+plt.plot(clf.predict(train_features), label = 'predicted')
+plt.plot(train_targets, label = 'actual')
+plt.legend(loc = 8)
+plt.title('Train set prediction')
+
+plt.figure(5)
+plt.plot(clf.predict(test_features), label = 'predicted')
+plt.plot(test_targets, label = 'actual')
+plt.legend(loc = 8)
+plt.title('Test set prediction')
 
