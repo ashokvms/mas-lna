@@ -23,7 +23,7 @@ X = np.column_stack([ise_us, features])
 ###############################################################################
 # Run Gaussian HMM
 print("fitting to HMM and decoding ...", end='')
-n_components = 3
+n_components = 4
 
 # make an HMM instance and execute fit
 model = GaussianHMM(n_components, covariance_type="diag", n_iter=1000)
